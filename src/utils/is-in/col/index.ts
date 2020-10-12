@@ -7,7 +7,7 @@ interface Input {
 }
 
 /**
- * A function that returns true if the value is already being used in the current grid row.
+ * A function that returns true if the value is already being used in the current grid column.
  * @param input Object with 9x9 Sudoku Grid, row Index and value
  */
 function isInCol({ col, grid, value }: Input): boolean {

@@ -1,2 +1,2 @@
 export { default as configureStore } from './configure-store'
-export * from './service-worker/index'
+export * from './service-worker'

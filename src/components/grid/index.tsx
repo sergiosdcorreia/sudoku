@@ -1,15 +1,22 @@
 import React, { FC, Children, useEffect, useCallback } from 'react'
 import useMouseTrap from 'react-hook-mousetrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction, Dispatch } from 'redux'
 
-import { createGrid } from 'reducers'
+import { createGrid, IReducer, selectBlock } from 'reducers'
 
 import { Container, Row } from './styles'
 import Block from './block'
-import { INDEX } from 'typings'
+import { INDEX, BLOCK_COORDS } from 'typings'
+
+interface IState {
+  selectedBlock?: BLOCK_COORDS
+}
 
 const Grid: FC = () => {
+  const state = useSelector<IReducer, IState>(({ selectedBlock }) => ({ 
+    selectedBlock 
+  }))
   const dispatch = useDispatch<Dispatch<AnyAction>>()
   const create = useCallback(() => dispatch(createGrid()), [dispatch])
   useEffect(() => {
@@ -17,19 +24,43 @@ const Grid: FC = () => {
   }, [create])
 
   function moveDown() {
-    console.log('down')
+    if(state.selectedBlock && state.selectedBlock[0] < 8)
+      dispatch(
+        selectBlock([
+          (state.selectedBlock[0] + 1) as INDEX,
+          state.selectedBlock[1]
+        ])
+      )
   }
 
   function moveLeft() {
-    console.log('left')
+    if(state.selectedBlock && state.selectedBlock[1] > 0)
+      dispatch(
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] - 1) as INDEX
+        ])
+      )
   }
 
   function moveRight() {
-    console.log('right')
+    if(state.selectedBlock && state.selectedBlock[1] < 8)
+      dispatch(
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] + 1) as INDEX
+        ])
+      )
   }
 
   function moveUp() {
-    console.log('up')
+    if(state.selectedBlock && state.selectedBlock[0] > 0)
+      dispatch(
+        selectBlock([
+          (state.selectedBlock[0] - 1) as INDEX,
+          state.selectedBlock[1]
+        ])
+      )
   }
 
   useMouseTrap('down', moveDown)

@@ -1,4 +1,5 @@
 import React, { FC, Children, useEffect, useCallback } from 'react'
+import useMouseTrap from 'react-hook-mousetrap'
 import { useDispatch } from 'react-redux'
 import { AnyAction, Dispatch } from 'redux'
 
@@ -14,6 +15,27 @@ const Grid: FC = () => {
   useEffect(() => {
     create()
   }, [create])
+
+  function moveDown() {
+    console.log('down')
+  }
+
+  function moveLeft() {
+    console.log('left')
+  }
+
+  function moveRight() {
+    console.log('right')
+  }
+
+  function moveUp() {
+    console.log('up')
+  }
+
+  useMouseTrap('down', moveDown)
+  useMouseTrap('left', moveLeft)
+  useMouseTrap('right', moveRight)
+  useMouseTrap('up', moveUp)
 
   return (
     <Container data-cy="grid-container">
